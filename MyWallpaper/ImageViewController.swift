@@ -15,7 +15,10 @@ class ImageViewController: UIViewController {
     
     @IBOutlet weak var viewImg: UIView!
     @IBOutlet weak var imgSow: UIImageView!
-
+    @IBOutlet weak var btnFullScreen: UIButton!
+    @IBOutlet weak var btnSaveImg: UIButton!
+    @IBOutlet weak var btnShareImg: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

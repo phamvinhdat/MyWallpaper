@@ -87,6 +87,7 @@ extension ViewController: UISearchBarDelegate{
         var strSearch:String = ""
         
         self.pixabayLoader.page = 1
+        self.pixabayLoader.data = nil
         
         if let subSearch = txtSearch?.split(separator: SPACE, maxSplits: 255, omittingEmptySubsequences: true){
             self.pixabayLoader.page = 1

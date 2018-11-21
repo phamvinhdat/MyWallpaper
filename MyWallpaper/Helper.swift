@@ -33,7 +33,7 @@ class PixabayQuery{
     private var per_page = 20
     var page:Int!
     var strSearch:String!
-    private(set) var data:WebReturn?
+    var data:WebReturn?
     
     //var isContinue = true
     
