@@ -7,88 +7,32 @@
 //
 
 import UIKit
-import SDWebImage
 
 class ViewController: UIViewController {
-
-    let strUrlRoot = "https://pixabay.com/api/?key=10738309-2ce5419b996ea7e48b49dc189"
-    var webReturn: WebReturn?
+    
     var searchBar:UISearchBar? = nil
-    var isContinue = true
-    var currentPage = 1
-    var maxPage: Int? = nil
+    let pixabayLoader = PixabayQuery()
     @IBOutlet weak var myTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         myTableView.dataSource = self
         myTableView.delegate = self
-        loadData(search: nil, page: 2)
+        myTableView.keyboardDismissMode = .onDrag
+        pixabayLoader.ReloadData(myTableView)
         createSearchBar()
-    }
-    
-    struct Pixabay: Decodable{
-        let width: Int
-        let height: Int
-        let imgURL: URL
-        let tags: String
-        
-        private enum CodingKeys: String, CodingKey {
-            case width = "imageWidth"
-            case height = "imageHeight"
-            case imgURL = "largeImageURL"
-            case tags
-        }
-    }
-    
-    struct WebReturn: Decodable{
-        let totalHits: Int
-        var hits: [Pixabay]
-    }
-    
-    fileprivate func loadData(search: String?, page: Int = 1){
-        guard maxPage != nil &&  maxPage! > page else {return}
-        var strUrl = "\(self.strUrlRoot)&page=\(page)"
-        let strSearch = search != nil ? "&q=\(search!)" : ""
-        strUrl.append(strSearch)
-        guard let url = URL(string: strUrl) else{return}
-        
-        URLSession.shared.dataTask(with: url) { (data, response, err) in
-            DispatchQueue.main.async {
-                
-                if let err = err{
-                    print("Failed to get data from URL: ", err)
-                    return
-                }
-                
-                guard let data = data else{return}
-                
-                do{
-                    let decoder = JSONDecoder()
-                    let temp = try decoder.decode(WebReturn.self, from: data)
-                    if self.isContinue{
-                        self.webReturn?.hits.insert(contentsOf: temp, at: 0)
-                    }
-                }catch let jsonErr{
-                    print("Failed to decode: ", jsonErr)
-                }
-                
-                self.myTableView.reloadData()
-            }
-        }.resume()
-        
-        self.myTableView.reloadData()
     }
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return webReturn != nil ? webReturn!.hits.count : 20
+        return self.pixabayLoader.data != nil ? self.pixabayLoader.data!.hits.count : 20
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CELL", for: indexPath) as! MyTableViewCell
-        if let temp = webReturn{
-            cell.imgShow.sd_setImage(with: temp.hits[indexPath.row].imgURL, placeholderImage: #imageLiteral(resourceName: "400x200"))
+        if let temp = self.pixabayLoader.data{
+            cell.imgShow.sd_setImage(with: temp.hits[indexPath.row].imgURL, placeholderImage: #imageLiteral(resourceName: "400x200"), options: [.progressiveDownload], completed: nil)
         }else{
             cell.imgShow.image = #imageLiteral(resourceName: "400x200")
         }
@@ -96,7 +40,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollVi
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let temp = webReturn{
+        if let temp = self.pixabayLoader.data{
             let width = self.view.frame.width
             let raito = CGFloat(temp.hits[indexPath.row].width) / width
             return CGFloat(temp.hits[indexPath.row].height) / raito
@@ -105,9 +49,19 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollVi
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sb = self.navigationController?.storyboard?.instantiateViewController(withIdentifier: "IMAGE_VIEW") as! ImageViewController
+        let cell = tableView.cellForRow(at: indexPath) as! MyTableViewCell
+        sb.myImg = cell.imgShow.image!
+        
+        self.navigationController?.pushViewController(sb, animated: true)
+    }
+    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
         if scrollView.contentOffset.y < 0{
-            print("adsad")
+            self.pixabayLoader.page += 1
+            self.pixabayLoader.ReloadData(self.myTableView)
         }
     }
 }
@@ -127,8 +81,26 @@ extension ViewController: UISearchBarDelegate{
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let alert = UIAlertController(title: "Datcay", message: "Da bam search button", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        self.searchBar?.endEditing(true)
+        let SPACE:Character = " "
+        let txtSearch = self.searchBar?.text
+        var strSearch:String = ""
+        
+        self.pixabayLoader.page = 1
+        
+        if let subSearch = txtSearch?.split(separator: SPACE, maxSplits: 255, omittingEmptySubsequences: true){
+            self.pixabayLoader.page = 1
+            strSearch = String()
+            for token in subSearch{
+                strSearch.append(contentsOf: token)
+                strSearch.append("+")
+            }
+        }
+        if strSearch.last == "+"{
+            strSearch.removeLast()
+        }
+        
+        self.pixabayLoader.strSearch = strSearch
+        self.pixabayLoader.ReloadData(self.myTableView)
     }
 }

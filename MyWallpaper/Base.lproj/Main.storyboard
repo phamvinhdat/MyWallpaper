@@ -65,6 +65,66 @@
             </objects>
             <point key="canvasLocation" x="752.79999999999995" y="792.95352323838085"/>
         </scene>
+        <!--Image View Controller-->
+        <scene sceneID="dX4-Mr-Z7P">
+            <objects>
+                <viewController storyboardIdentifier="IMAGE_VIEW" id="yan-8v-oCZ" customClass="ImageViewController" customModule="MyWallpaper" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DdC-PQ-85R">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bdj-eq-ReD">
+                                <rect key="frame" x="0.0" y="243.5" width="375" height="200"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RyQ-C7-jAO">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xeg-4U-il2">
+                                        <rect key="frame" x="334" y="0.0" width="25" height="25"/>
+                                        <state key="normal" image="icons8-full_screen"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aMW-OW-rnG">
+                                        <rect key="frame" x="339" y="41" width="20" height="22"/>
+                                        <state key="normal" image="icons8-full_image"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ax6-FU-4wO">
+                                        <rect key="frame" x="335" y="79" width="24" height="24"/>
+                                        <state key="normal" image="icons8-share"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="4je-qQ-gNj"/>
+                                    <constraint firstItem="Xeg-4U-il2" firstAttribute="top" secondItem="Bdj-eq-ReD" secondAttribute="top" id="5lv-1v-A9K"/>
+                                    <constraint firstAttribute="trailing" secondItem="aMW-OW-rnG" secondAttribute="trailing" constant="16" id="60y-vl-dRt"/>
+                                    <constraint firstItem="ax6-FU-4wO" firstAttribute="top" secondItem="aMW-OW-rnG" secondAttribute="bottom" constant="16" id="B6I-o3-CKB"/>
+                                    <constraint firstAttribute="trailing" secondItem="ax6-FU-4wO" secondAttribute="trailing" constant="16" id="Gpi-p6-OQj"/>
+                                    <constraint firstAttribute="bottom" secondItem="RyQ-C7-jAO" secondAttribute="bottom" id="Ny6-mB-ZjT"/>
+                                    <constraint firstAttribute="trailing" secondItem="RyQ-C7-jAO" secondAttribute="trailing" id="PGR-N7-wOt"/>
+                                    <constraint firstItem="RyQ-C7-jAO" firstAttribute="top" secondItem="Bdj-eq-ReD" secondAttribute="top" id="QyJ-rU-D4E"/>
+                                    <constraint firstItem="aMW-OW-rnG" firstAttribute="top" secondItem="Xeg-4U-il2" secondAttribute="bottom" constant="16" id="qdq-fX-YFl"/>
+                                    <constraint firstItem="RyQ-C7-jAO" firstAttribute="leading" secondItem="Bdj-eq-ReD" secondAttribute="leading" id="wAQ-DX-P3s"/>
+                                    <constraint firstAttribute="trailing" secondItem="Xeg-4U-il2" secondAttribute="trailing" constant="16" id="y7N-SW-Uws"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Bdj-eq-ReD" firstAttribute="centerY" secondItem="n5v-q5-2Zm" secondAttribute="centerY" id="OVb-Cs-4hG"/>
+                            <constraint firstItem="Bdj-eq-ReD" firstAttribute="leading" secondItem="n5v-q5-2Zm" secondAttribute="leading" id="c43-sG-9b0"/>
+                            <constraint firstItem="n5v-q5-2Zm" firstAttribute="trailing" secondItem="Bdj-eq-ReD" secondAttribute="trailing" id="up7-3D-HRS"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="n5v-q5-2Zm"/>
+                    </view>
+                    <connections>
+                        <outlet property="imgSow" destination="RyQ-C7-jAO" id="4I0-eG-UCR"/>
+                        <outlet property="viewImg" destination="Bdj-eq-ReD" id="3zT-wX-rMy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i9c-YX-kqz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1418.4000000000001" y="792.95352323838085"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="4f4-G2-kbi">
             <objects>
@@ -84,4 +144,9 @@
             <point key="canvasLocation" x="132" y="792.95352323838085"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icons8-full_image" width="20" height="20"/>
+        <image name="icons8-full_screen" width="25" height="25"/>
+        <image name="icons8-share" width="24" height="24"/>
+    </resources>
 </document>
