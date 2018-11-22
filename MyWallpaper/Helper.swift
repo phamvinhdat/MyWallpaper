@@ -13,13 +13,13 @@ struct Pixabay: Decodable{
     let width: Int
     let height: Int
     let imgURL: URL
-    let tags: String
+    let user: String
     
     private enum CodingKeys: String, CodingKey {
         case width = "imageWidth"
         case height = "imageHeight"
         case imgURL = "largeImageURL"
-        case tags
+        case user
     }
 }
 
@@ -70,7 +70,7 @@ class PixabayQuery{
         }
         
         URLSession.shared.dataTask(with: url) { (data, response, err) in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async {	
                 
                 if let err = err{
                     print("Failed to get data from URL: ", err)

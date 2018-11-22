@@ -22,7 +22,14 @@ class ImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setBtn_viewDidLoad()
         imgSow.image = myImg
+    }
+    
+    func setBtn_viewDidLoad(){
+        btnShareImg.layer.cornerRadius = btnShareImg.frame.width/2
+        btnSaveImg.layer.cornerRadius = btnSaveImg.frame.width/2
+        btnFullScreen.layer.cornerRadius = btnFullScreen.frame.width/2
     }
     
     @IBAction func btnSaveImg(_ sender: Any) {
@@ -41,6 +48,7 @@ class ImageViewController: UIViewController {
             present(ac, animated: true)
         }
     }
+    
     @IBAction func btnFullScreen(_ sender: Any) {
         let btn = sender as! UIButton
         if !isFull{
@@ -54,17 +62,9 @@ class ImageViewController: UIViewController {
     }
     
     @IBAction func btnShare(_ sender: Any) {
-        //tham khao tren mang
-        // set up activity view controller
-        let imageToShare = [ imgSow! ]
-        let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-        
-        // exclude some activity types from the list (optional)
-        activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToFacebook , ]
-        
-        // present the view controller
-        self.present(activityViewController, animated: true, completion: nil)
+        let item = [self.myImg]
+        let activityVC = UIActivityViewController(activityItems: item, applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
+        self.present(activityVC, animated: true, completion: nil)
     }
-    
 }

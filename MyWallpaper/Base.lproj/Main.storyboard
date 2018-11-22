@@ -32,16 +32,27 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HT3-NF-Iwt">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="122.5"/>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xNG-Xt-To3">
+                                                    <rect key="frame" x="152.5" y="96" width="70" height="18.5"/>
+                                                    <fontDescription key="fontDescription" name="Charter-Roman" family="Charter" pointSize="15"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="HT3-NF-Iwt" secondAttribute="bottom" id="BAE-zM-HFp"/>
+                                                <constraint firstAttribute="bottom" secondItem="xNG-Xt-To3" secondAttribute="bottom" constant="8" id="BIb-mK-Ce9"/>
                                                 <constraint firstAttribute="trailing" secondItem="HT3-NF-Iwt" secondAttribute="trailing" id="FCz-0k-DKb"/>
                                                 <constraint firstItem="HT3-NF-Iwt" firstAttribute="top" secondItem="j6P-NR-lV2" secondAttribute="top" id="eX7-KD-957"/>
                                                 <constraint firstItem="HT3-NF-Iwt" firstAttribute="leading" secondItem="j6P-NR-lV2" secondAttribute="leading" id="kJs-Vo-KEd"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <constraints>
+                                            <constraint firstItem="xNG-Xt-To3" firstAttribute="centerX" secondItem="fcf-tf-YAu" secondAttribute="centerX" id="Kl3-SW-jAQ"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="imgShow" destination="HT3-NF-Iwt" id="q7b-5f-I39"/>
+                                            <outlet property="lblUser" destination="xNG-Xt-To3" id="VlT-AG-Rh2"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -79,8 +90,9 @@
                                     <constraint firstAttribute="height" priority="500" constant="200" id="ITb-1w-dmj"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xeg-4U-il2">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xeg-4U-il2">
                                 <rect key="frame" x="329" y="282.5" width="30" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="QQ5-6W-aE5"/>
                                     <constraint firstAttribute="width" constant="30" id="TPu-fY-rdL"/>
@@ -90,8 +102,9 @@
                                     <action selector="btnFullScreen:" destination="yan-8v-oCZ" eventType="touchUpInside" id="Uzq-V0-Xr1"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aMW-OW-rnG">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aMW-OW-rnG">
                                 <rect key="frame" x="329" y="328.5" width="30" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="NeF-g6-mIL"/>
                                     <constraint firstAttribute="width" constant="30" id="sE4-i5-GTa"/>
@@ -101,8 +114,9 @@
                                     <action selector="btnSaveImg:" destination="yan-8v-oCZ" eventType="touchUpInside" id="8Ed-mU-VCn"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ax6-FU-4wO">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ax6-FU-4wO">
                                 <rect key="frame" x="329" y="374.5" width="30" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="eGE-d1-Edu"/>
                                     <constraint firstAttribute="width" constant="30" id="f94-g5-GTg"/>
