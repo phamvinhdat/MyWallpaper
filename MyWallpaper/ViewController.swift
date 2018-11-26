@@ -10,18 +10,29 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var activityIndicator: UIActivityIndicatorView!
     var searchBar:UISearchBar? = nil
     let pixabayLoader = PixabayQuery()
     @IBOutlet weak var myTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setActivityIndicator_viewDidLoad()
         myTableView.dataSource = self
         myTableView.delegate = self
         myTableView.keyboardDismissMode = .onDrag
         myTableView.separatorColor = UIColor.clear
-        pixabayLoader.ReloadData(myTableView)
+        pixabayLoader.ReloadData(myTableView, activityIndicator)
         createSearchBar()
+    }
+    
+    private func setActivityIndicator_viewDidLoad(){
+        activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .whiteLarge
+        activityIndicator.color = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        self.view.addSubview(activityIndicator)
     }
 }
 
@@ -32,8 +43,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CELL", for: indexPath) as! MyTableViewCell
+        cell.activityIndicator.startAnimating()
         if let temp = self.pixabayLoader.data{
-            cell.imgShow.sd_setImage(with: temp.hits[indexPath.row].imgURL, placeholderImage: #imageLiteral(resourceName: "400x200"), options: [.progressiveDownload], completed: nil)
+            cell.imgShow.sd_setImage(with: temp.hits[indexPath.row].imgURL, placeholderImage: #imageLiteral(resourceName: "400x200"), options: [.progressiveDownload]) { (image, error, imageCache, url) in
+                if let er = error{
+                    cell.lblUser.text = "\(er)"
+                    cell.lblUser.textColor = UIColor.red
+                }
+                cell.activityIndicator.stopAnimating()
+            }
             cell.lblUser.text = temp.hits[indexPath.row].user
         }else{
             cell.imgShow.image = #imageLiteral(resourceName: "400x200")
@@ -62,7 +80,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollVi
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if scrollView.contentOffset.y < 0{
             self.pixabayLoader.page += 1
-            self.pixabayLoader.ReloadData(self.myTableView)
+            self.pixabayLoader.ReloadData(self.myTableView, activityIndicator)
         }
     }
 }
@@ -81,7 +99,7 @@ extension ViewController: UISearchBarDelegate{
         self.searchBar?.endEditing(true)
         self.searchBar?.text = ""
         self.pixabayLoader.strSearch = ""
-        self.pixabayLoader.ReloadData(self.myTableView)
+        self.pixabayLoader.ReloadData(self.myTableView, activityIndicator)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -107,6 +125,6 @@ extension ViewController: UISearchBarDelegate{
         
         self.pixabayLoader.strSearch = strSearch
         self.myTableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
-        self.pixabayLoader.ReloadData(self.myTableView)
+        self.pixabayLoader.ReloadData(self.myTableView, activityIndicator)
     }
 }

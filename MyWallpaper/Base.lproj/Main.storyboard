@@ -38,19 +38,29 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="sZB-Ng-yhe">
+                                                    <rect key="frame" x="162.5" y="36.5" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="FXd-sC-tTx"/>
+                                                        <constraint firstAttribute="height" constant="50" id="sML-DG-E2u"/>
+                                                    </constraints>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="HT3-NF-Iwt" secondAttribute="bottom" id="BAE-zM-HFp"/>
                                                 <constraint firstAttribute="bottom" secondItem="xNG-Xt-To3" secondAttribute="bottom" constant="8" id="BIb-mK-Ce9"/>
                                                 <constraint firstAttribute="trailing" secondItem="HT3-NF-Iwt" secondAttribute="trailing" id="FCz-0k-DKb"/>
                                                 <constraint firstItem="HT3-NF-Iwt" firstAttribute="top" secondItem="j6P-NR-lV2" secondAttribute="top" id="eX7-KD-957"/>
+                                                <constraint firstItem="sZB-Ng-yhe" firstAttribute="centerY" secondItem="j6P-NR-lV2" secondAttribute="centerY" id="jAL-Dq-cMw"/>
                                                 <constraint firstItem="HT3-NF-Iwt" firstAttribute="leading" secondItem="j6P-NR-lV2" secondAttribute="leading" id="kJs-Vo-KEd"/>
+                                                <constraint firstItem="sZB-Ng-yhe" firstAttribute="centerX" secondItem="j6P-NR-lV2" secondAttribute="centerX" id="to1-wc-BjJ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
                                             <constraint firstItem="xNG-Xt-To3" firstAttribute="centerX" secondItem="fcf-tf-YAu" secondAttribute="centerX" id="Kl3-SW-jAQ"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="sZB-Ng-yhe" id="ou6-mC-NHk"/>
                                             <outlet property="imgShow" destination="HT3-NF-Iwt" id="q7b-5f-I39"/>
                                             <outlet property="lblUser" destination="xNG-Xt-To3" id="VlT-AG-Rh2"/>
                                         </connections>

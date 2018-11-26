@@ -54,7 +54,7 @@ class PixabayQuery{
         return strResult
     }
     
-    func ReloadData(_ tableView: UITableView) {
+    func ReloadData(_ tableView: UITableView, _ activityIndicator: UIActivityIndicatorView) {
         if let temp = self.data?.totalHits{
             if page > temp/per_page{
                 print("Load data faild.")
@@ -62,16 +62,15 @@ class PixabayQuery{
             }
         }
         
-        print(getStrQuery())
-        
         guard let url = URL(string: self.getStrQuery()) else{
             print("URL failed")
             return
         }
         
+        activityIndicator.startAnimating()
+        
         URLSession.shared.dataTask(with: url) { (data, response, err) in
-            DispatchQueue.main.async {	
-                
+            DispatchQueue.global().sync {
                 if let err = err{
                     print("Failed to get data from URL: ", err)
                     return
@@ -93,7 +92,10 @@ class PixabayQuery{
                 }catch let jsonErr{
                     print("Failed to decode: ", jsonErr)
                 }
-                tableView.reloadData()
+                DispatchQueue.main.sync {
+                    tableView.reloadData()
+                    activityIndicator.stopAnimating()
+                }
             }
         }.resume()
     }
