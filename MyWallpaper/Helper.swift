@@ -85,10 +85,11 @@ class PixabayQuery{
                     let decoder = JSONDecoder()
                     let temp = try decoder.decode(WebReturn.self, from: data)
                     if self.page > 1{
-                        self.data?.hits.insert(contentsOf: temp.hits, at: 0)
+                        self.data?.hits.append(contentsOf: temp.hits)
                     }else{
                         self.data = temp
                     }
+                    print(temp.totalHits)
                 }catch let jsonErr{
                     print("Failed to decode: ", jsonErr)
                 }

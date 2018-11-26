@@ -27,10 +27,10 @@ class ViewController: UIViewController {
     }
     
     private func setActivityIndicator_viewDidLoad(){
-        activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = self.view.center
+        activityIndicator = UIActivityIndicatorView(frame: CGRect(origin: self.view.center, size: CGSize(width: 50, height: 50)))
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .whiteLarge
+        activityIndicator.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         activityIndicator.color = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         self.view.addSubview(activityIndicator)
     }
@@ -43,8 +43,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CELL", for: indexPath) as! MyTableViewCell
-        cell.activityIndicator.startAnimating()
+        
         if let temp = self.pixabayLoader.data{
+            cell.activityIndicator.startAnimating()
             cell.imgShow.sd_setImage(with: temp.hits[indexPath.row].imgURL, placeholderImage: #imageLiteral(resourceName: "400x200"), options: [.progressiveDownload]) { (image, error, imageCache, url) in
                 if let er = error{
                     cell.lblUser.text = "\(er)"
@@ -78,9 +79,19 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollVi
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if scrollView.contentOffset.y < 0{
-            self.pixabayLoader.page += 1
+        let contentYoffset = scrollView.contentOffset.y
+        
+        //refresh data
+        if contentYoffset < 0{
+            self.pixabayLoader.page = 1
             self.pixabayLoader.ReloadData(self.myTableView, activityIndicator)
+        }else{//if the user pulls the table down then reload data
+            let height = scrollView.frame.size.height
+            let distanceFromBottom = scrollView.contentSize.height - contentYoffset
+            if distanceFromBottom < height {
+                self.pixabayLoader.page += 1
+                self.pixabayLoader.ReloadData(self.myTableView, activityIndicator)
+            }
         }
     }
 }
