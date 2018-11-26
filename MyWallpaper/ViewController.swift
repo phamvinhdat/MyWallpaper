@@ -19,6 +19,7 @@ class ViewController: UIViewController {
         myTableView.dataSource = self
         myTableView.delegate = self
         myTableView.keyboardDismissMode = .onDrag
+        myTableView.separatorColor = UIColor.clear
         pixabayLoader.ReloadData(myTableView)
         createSearchBar()
     }
@@ -33,6 +34,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollVi
         let cell = tableView.dequeueReusableCell(withIdentifier: "CELL", for: indexPath) as! MyTableViewCell
         if let temp = self.pixabayLoader.data{
             cell.imgShow.sd_setImage(with: temp.hits[indexPath.row].imgURL, placeholderImage: #imageLiteral(resourceName: "400x200"), options: [.progressiveDownload], completed: nil)
+            cell.lblUser.text = temp.hits[indexPath.row].user
         }else{
             cell.imgShow.image = #imageLiteral(resourceName: "400x200")
         }
@@ -58,7 +60,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource, UIScrollVi
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
         if scrollView.contentOffset.y < 0{
             self.pixabayLoader.page += 1
             self.pixabayLoader.ReloadData(self.myTableView)
@@ -78,6 +79,9 @@ extension ViewController: UISearchBarDelegate{
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.searchBar?.endEditing(true)
+        self.searchBar?.text = ""
+        self.pixabayLoader.strSearch = ""
+        self.pixabayLoader.ReloadData(self.myTableView)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -102,6 +106,7 @@ extension ViewController: UISearchBarDelegate{
         }
         
         self.pixabayLoader.strSearch = strSearch
+        self.myTableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
         self.pixabayLoader.ReloadData(self.myTableView)
     }
 }
